@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <h2>今回設定すべきサブネットマスク</h2>
+    <h3>255.255.255.128</h3>
+
+    <h2>今回設定すべきIPアドレス</h2>
+    <h3>①</h3>
+    <h4>PC[X] : 131.101.0.126<br>R01(Vlan1) : 131.101.0.1</h4>
+    <h3>②</h3>
+    <h4>R01 : 131.101.0.129<br>R02 : 131.101.0.130</h4>
+    <h3>③</h3>
+    <h4>PC[X+1] : 131.101.1.126<br>R02(Vlan1) : 131.101.1.1</h4>
+    <h3>④</h3>
+    <h4>R02 : 131.101.1.129<br>R03 : 131.101.1.130</h4>
+    <h3>⑤</h3>
+    <h4>PC[X+2] : 131.101.2.126<br>R03(Vlan1) : 131.101.2.1</h4>
+    <h3>⑥</h3>
+    <h4>R03 : 131.101.2.129<br>R04 : 131.101.2.130</h4>
+    <h3>⑦</h3>
+    <h4>PC[X+3] : 131.101.3.126<br>R01 : 131.101.3.1</h4>
+    <h3>⑧</h3>
+    <h4>R01 : 131.101.3.129<br>R04 : 131.101.3.130</h4>
+
+    <h2>今回設定すべきデフォルトゲートウェイ</h2>
+    <h3>各PCにつながっているルーターのVlanのIPアドレス</h3>
+
+    <h2>今回設定すべきコマンド</h2>
+    <h3>configure terminal</h3>
+    <h4>
+        no ip domain-lookup<br>
+        service password-encryption<br>
+        enable secret 「パスワード」<br>
+        banner motd #Authorized Access Only!#<br>
+        hostname 「ルーターのホスト名」
+    </h4>
+    <h3>line console 0  ・  line vty 0 15</h3>
+    <h4>
+        logging synchronous<br>
+        password 「パスワード」<br>
+        login
+    </h4>
+    <h3>interface G0/0 ・ G0/1</h3>
+    <h4>
+        no shutdown<br>
+        description 「相手のルーターのホスト名」
+    </h4>
+    <h3>interface vlan1 ・ G0/0 ・ G0/1</h3>
+    <h4>ip address 「Vlan1に設定するIPアドレス」 「サブネットマスク」</h4>
+    <h3>router rip</h3>
+    <h4>
+        version 2<br>
+        network 「つながっているPCのネットワークアドレス」<br>
+        <br>
+        ネットワークアドレスとは・・・IPアドレスが所属しているネットワークのアドレス（要するにIPの最小値）<br>
+        ①・・・131.101.0.0<br>
+        ③・・・131.101.1.0<br>
+        ⑤・・・131.101.2.0<br>
+        ⑦・・・131.101.3.0
+    </h4>
+</html>
